@@ -34,15 +34,12 @@ import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
 import TextFieldsIcon from "@mui/icons-material/TextFields";
 import FolderIcon from "@mui/icons-material/Folder";
 
-
 const Form = () => {
   const [questions, setQuestions] = useState([
     {
       questionText: "",
       questionType: "",
-      options: [
-        { optionText: "" },
-      ],
+      options: [{ optionText: "" }],
       answer: false,
       answerKey: "",
       points: 0,
@@ -51,14 +48,14 @@ const Form = () => {
     },
   ]);
 
-  function changeQuestion(text, i) {
+  function changeQuestion(text: any, i: any) {
     var newQuestion = [...questions];
     newQuestion[i].questionText = text;
     setQuestions(newQuestion);
     console.log(newQuestion);
   }
 
-  function addQuestionType(i, type) {
+  function addQuestionType(i: any, type: any) {
     let qs = [...questions];
     console.log(type);
     qs[i].questionType = type;
@@ -66,7 +63,7 @@ const Form = () => {
     setQuestions(qs);
   }
 
-  function changeOptionValue(text, i, j) {
+  function changeOptionValue(text: any, i: any, j: any) {
     var optionsQuestion = [...questions];
     optionsQuestion[i].options[j].optionText = text;
 
@@ -74,7 +71,7 @@ const Form = () => {
     console.log(optionsQuestion);
   }
 
-  function setAnswer(ans, qs) {
+  function setAnswer(ans: any, qs: any) {
     var Questions = [...questions];
     Questions[qs].answerKey = ans;
 
@@ -82,7 +79,7 @@ const Form = () => {
     console.log(qs + " " + ans);
   }
 
-  function setPoints(points, qs) {
+  function setPoints(points: any, qs: any) {
     var Questions = [...questions];
     Questions[qs].points = points;
 
@@ -90,20 +87,20 @@ const Form = () => {
     console.log(qs + " ");
   }
 
-  function doneAnswer(i) {
+  function doneAnswer(i: any) {
     var answerOfQuestion = [...questions];
     answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
 
     setQuestions(answerOfQuestion);
   }
 
-  function addAnswer(i) {
+  function addAnswer(i: any) {
     var answerOfQuestion = [...questions];
     answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
     setQuestions(answerOfQuestion);
   }
 
-  function addOption(i) {
+  function addOption(i: any) {
     var optionsOfQuestion = [...questions];
     if (optionsOfQuestion[i].options.length < 5) {
       optionsOfQuestion[i].options.push({
@@ -116,7 +113,7 @@ const Form = () => {
     setQuestions(optionsOfQuestion);
   }
 
-  function removeOption(i, j) {
+  function removeOption(i: any, j: any) {
     var RemoveOptionQuestion = [...questions];
     if (RemoveOptionQuestion[i].options.length > 1) {
       RemoveOptionQuestion[i].options.splice(j, 1);
@@ -125,14 +122,14 @@ const Form = () => {
     }
   }
 
-  function copyQuestion(i) {
+  function copyQuestion(i: any) {
     let qs = [...questions];
     var newQuestion = qs[i];
 
     setQuestions([...questions, newQuestion]);
   }
 
-  function deleteQuestion(i) {
+  function deleteQuestion(i: any) {
     let qs = [...questions];
     if (questions.length > 1) {
       qs.splice(i, 1);
@@ -140,7 +137,7 @@ const Form = () => {
     setQuestions(qs);
   }
 
-  function requiredQuestion(i) {
+  function requiredQuestion(i: any) {
     var reqQuestion = [...questions];
     reqQuestion[i].required = !reqQuestion[i].required;
 
@@ -155,6 +152,9 @@ const Form = () => {
         questionText: "",
         questionType: "",
         options: [{ optionText: "" }],
+        answer: false,
+        answerKey: "",
+        points: 0,
         open: true,
         required: false,
       },
@@ -163,52 +163,11 @@ const Form = () => {
 
   function questionUI() {
     return questions.map((ques, i) => (
-      <div>
+      <div key={i}>
         <Accordion
           expanded={questions[i].open}
           className={questions[i].open ? "add border" : ""}
         >
-          {/*  <AccordionSummary
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            elevation={1}
-            className="w-full"
-          >
-             {questions[i].open ? (
-              <div>
-                <Typography className="text-xl font-normal space-x-1 h-6 mb-3 ">
-                  {i + 1}.{questions[i].questionText}
-                </Typography>
-
-                {ques.options.map((op, j) => (
-                  <div key={j}>
-                    <div className="flex">
-                      <FormControlLabel
-                        className="ml-1 mb-1"
-                        disabled
-                        control={
-                          <input
-                            type={ques.questionType}
-                            color="primary"
-                            style={{ marginRight: "3px" }}
-                            required={ques.type}
-                          />
-                        }
-                        label={
-                          <Typography className="font-sans text-sm font-normal space-x-2 h-6 text-[#202124]">
-                            {ques.options[j].optionText}
-                          </Typography>
-                        }
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              ""
-            )} 
-          </AccordionSummary> */}
-
           <div className="grid grid-col-3 grid-flow-dense">
             {!questions[i].answer ? (
               <AccordionDetails>
@@ -238,7 +197,6 @@ const Form = () => {
 
                     <MenuItem
                       value="radio"
-                      checked
                       onClick={(e) => {
                         addQuestionType(i, "radio");
                       }}
@@ -249,7 +207,6 @@ const Form = () => {
 
                     <MenuItem
                       value="checkbox"
-                      checked
                       onClick={(e) => {
                         addQuestionType(i, "checkbox");
                       }}
@@ -297,7 +254,7 @@ const Form = () => {
                       disabled
                       control={
                         ques.questionType != "text" ? (
-                          <input
+                          <Input
                             type={ques.questionType}
                             color="primary"
                             inputProps={{ "aria-label": "secondary checkbox" }}
@@ -337,7 +294,9 @@ const Form = () => {
                     <Button
                       size="small"
                       className="text-[#4285f4] text-xs font-semibold"
-                      onClick={() => {addAnswer(i)}}
+                      onClick={() => {
+                        addAnswer(i);
+                      }}
                     >
                       <LaunchIcon className=" mr-2" />
                       Đáp án
@@ -385,7 +344,9 @@ const Form = () => {
             ) : (
               <AccordionDetails>
                 <div>
-                  <h2 className="font-bold text-xl pb-1">Chọn câu trả lời đúng</h2>
+                  <h2 className="font-bold text-xl pb-1">
+                    Chọn câu trả lời đúng
+                  </h2>
                 </div>
                 <div>
                   <div>
@@ -441,7 +402,7 @@ const Form = () => {
                       className="text-[#4285f4] text-sm mt-3 font-semibold"
                     >
                       <FolderIcon className=" text-xl mr-2" />
-                        Thêm Feedback
+                      Thêm Feedback
                     </Button>
                   </div>
                   <div className="">
@@ -460,20 +421,24 @@ const Form = () => {
               </AccordionDetails>
             )}
 
-          { !ques.answer ? (  <div className="flex-col absolute bg-gray-200 w-[40px] h-[160px] rounded-lg ml-[840px] mt-3">
-              <IconButton onClick={() => addMoreQuestion()}>
-                <AddCircleIcon />
-              </IconButton>
-              <IconButton>
-                <TextFieldsIcon />
-              </IconButton>
-              <IconButton>
-                <CropOriginalIcon />
-              </IconButton>
-              <IconButton>
-                <SmartDisplayIcon />
-              </IconButton>
-            </div> ): ""}
+            {!ques.answer ? (
+              <div className="flex-col absolute bg-gray-200 w-[40px] h-[160px] rounded-lg ml-[840px] mt-3">
+                <IconButton onClick={() => addMoreQuestion()}>
+                  <AddCircleIcon />
+                </IconButton>
+                <IconButton>
+                  <TextFieldsIcon />
+                </IconButton>
+                <IconButton>
+                  <CropOriginalIcon />
+                </IconButton>
+                <IconButton>
+                  <SmartDisplayIcon />
+                </IconButton>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </Accordion>
       </div>
